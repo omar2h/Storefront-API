@@ -16,7 +16,10 @@ class ProductModel {
   }
 
   async show(id: string): Promise<Product> {
-    const result = await db.query('SELECT * FROM products WHERE id=($1)', [id])
+    const result = await db.query(
+      'SELECT * FROM products WHERE product_uid=($1)',
+      [id]
+    )
     return result.rows[0]
   }
 }

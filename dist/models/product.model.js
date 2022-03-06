@@ -74,7 +74,7 @@ var ProductModel = /** @class */ (function () {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, connect_1["default"].query('SELECT * FROM products WHERE id=($1)', [id])];
+                    case 0: return [4 /*yield*/, connect_1["default"].query('SELECT * FROM products WHERE product_uid=($1)', [id])];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result.rows[0]];
