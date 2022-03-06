@@ -1,9 +1,9 @@
 import cors from 'cors'
 import express, { Request, Response } from 'express'
 import morgan from 'morgan'
-import products from './routes/products.routes'
-import users from './routes/users.routes'
-import orders from './routes/orders.routes'
+import products from './routes/products.route'
+import users from './routes/users.route'
+import orders from './routes/orders.route'
 
 const app: express.Application = express()
 app.use(express.json())

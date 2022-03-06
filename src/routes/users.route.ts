@@ -5,7 +5,7 @@ import {
   getAllUsers,
   getUser,
   createUser,
-} from '../controllers/users.controllers'
+} from '../controllers/users.controller'
 
 router.route('/').get(getAllUsers).post(createUser)
 router.route('/:id').get(getUser)

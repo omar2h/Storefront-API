@@ -5,7 +5,7 @@ import {
   getAllProducts,
   getProduct,
   createProduct,
-} from '../controllers/products.controllers'
+} from '../controllers/products.controller'
 
 router.route('/').get(getAllProducts).post(createProduct)
 router.route('/:id').get(getProduct)

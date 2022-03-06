@@ -1,15 +1,21 @@
 import { Request, Response } from 'express'
+import ProductModel from '../models/product.model'
 
-const getAllProducts = (req: Request, res: Response) => {
-  res.send('get All Products')
+const productModel = new ProductModel()
+
+const getAllProducts = async (req: Request, res: Response) => {
+  const products = await productModel.index()
+  res.json({ products })
 }
 
-const getProduct = (req: Request, res: Response) => {
-  res.json({ id: req.params.id })
+const getProduct = async (req: Request, res: Response) => {
+  const product = await productModel.show(req.params.id)
+  res.json({ product })
 }
 
-const createProduct = (req: Request, res: Response) => {
-  res.json(req.body)
+const createProduct = async (req: Request, res: Response) => {
+  const product = await productModel.create(req.body)
+  res.json({ product })
 }
 
 export { getAllProducts, getProduct, createProduct }

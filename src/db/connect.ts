@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import { Client } from 'pg'
+import { Pool } from 'pg'
 
 dotenv.config()
 
@@ -11,7 +11,7 @@ const {
   POSTGRES_DB,
 } = process.env
 
-const client = new Client({
+const pool = new Pool({
   host: POSTGRES_HOST,
   user: POSTGRES_USER,
   port: parseInt(POSTGRES_PORT as string),
@@ -19,4 +19,7 @@ const client = new Client({
   database: POSTGRES_DB,
 })
 
-export default client
+export = {
+  query: (sql: string, params?: (string | number | undefined)[]) =>
+    pool.query(sql, params),
+}
