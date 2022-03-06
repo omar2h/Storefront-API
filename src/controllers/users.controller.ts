@@ -1,15 +1,21 @@
 import { Request, Response } from 'express'
+import UserModel from '../models/user.model'
 
-const getAllUsers = (req: Request, res: Response) => {
-  res.send('get All Users')
+const userModel = new UserModel()
+
+const getAllUsers = async (req: Request, res: Response) => {
+  const users = await userModel.index()
+  res.json({ users })
 }
 
-const getUser = (req: Request, res: Response) => {
-  res.json({ id: req.params.id })
+const getUser = async (req: Request, res: Response) => {
+  const user = await userModel.show(req.params.id)
+  res.json({ user })
 }
 
-const createUser = (req: Request, res: Response) => {
-  res.json(req.body)
+const createUser = async (req: Request, res: Response) => {
+  const user = await userModel.create(req.body)
+  res.json({ user })
 }
 
 export { getAllUsers, getUser, createUser }
