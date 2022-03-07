@@ -1,5 +1,5 @@
 type User = {
-  id?: string
+  user_uid?: string
   email?: string
   firstName: string
   lastName: string

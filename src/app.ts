@@ -1,22 +1,23 @@
 import cors from 'cors'
 import express, { Request, Response } from 'express'
 import morgan from 'morgan'
-import products from './routes/products.route'
-import users from './routes/users.route'
-import orders from './routes/orders.route'
+import productsRouter from './routes/products.route'
+import usersRouter from './routes/users.route'
+import ordersRouter from './routes/orders.route'
 
 const app: express.Application = express()
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
 
-require('./db/connect')
-app.get('/', function (req: Request, res: Response) {
-  res.send('Hello World!')
+app.get('/', (req: Request, res: Response) => {
+  res.send(
+    '<h1>StoreFront API</h1><a href="/api/v1/products">Products route</a> <a href="/api/v1/users">Users route</a>'
+  )
 })
 
-app.use('/api/v1/products', products)
-app.use('/api/v1/users', users)
-app.use('/api/v1/orsers', orders)
+app.use('/api/v1/products', productsRouter)
+app.use('/api/v1/users', usersRouter)
+app.use('/api/v1/orders', ordersRouter)
 
 export default app

@@ -39,63 +39,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.getAllCompleteOrders = exports.getAllActiveOrders = exports.createOrder = exports.getAllOrders = void 0;
-var order_model_1 = __importDefault(require("../models/order.model"));
-var orderModel = new order_model_1["default"]();
-var getAllOrders = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var orders;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, orderModel.index(req.params.id)];
-            case 1:
-                orders = _a.sent();
-                res.json({ orders: orders });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.getAllOrders = getAllOrders;
-var getAllActiveOrders = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var status, orders;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                status = 'active';
-                return [4 /*yield*/, orderModel.index(req.params.id, status)];
-            case 1:
-                orders = _a.sent();
-                res.json({ orders: orders });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.getAllActiveOrders = getAllActiveOrders;
-var getAllCompleteOrders = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var status, orders;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                status = 'complete';
-                return [4 /*yield*/, orderModel.index(req.params.id, status)];
-            case 1:
-                orders = _a.sent();
-                res.json({ orders: orders });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.getAllCompleteOrders = getAllCompleteOrders;
-var createOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var order;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, orderModel.create(req.body)];
-            case 1:
-                order = _a.sent();
-                console.log(order);
-                res.json({ order: order });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.createOrder = createOrder;
+var connect_1 = __importDefault(require("../db/connect"));
+var OrderModel = /** @class */ (function () {
+    function OrderModel() {
+    }
+    OrderModel.prototype.index = function (id, status) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result_1, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!status) return [3 /*break*/, 2];
+                        return [4 /*yield*/, connect_1["default"].query('SELECT * FROM orders WHERE user_uid=$1', [
+                                id,
+                            ])];
+                    case 1:
+                        result_1 = _a.sent();
+                        return [2 /*return*/, result_1.rows];
+                    case 2: return [4 /*yield*/, connect_1["default"].query('SELECT * FROM orders WHERE user_uid=$1 AND status=$2', [id, status])];
+                    case 3:
+                        result = _a.sent();
+                        return [2 /*return*/, result.rows];
+                }
+            });
+        });
+    };
+    OrderModel.prototype.create = function (newOrder) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, connect_1["default"].query('INSERT INTO orders (product_uid, quantity, user_uid, status) VALUES ($1, $2, $3, $4) RETURNING *', [
+                            newOrder.product_uid,
+                            newOrder.quantity,
+                            newOrder.user_uid,
+                            newOrder.status,
+                        ])];
+                    case 1:
+                        result = _a.sent();
+                        console.log(result.rows[0]);
+                        return [2 /*return*/, result.rows[0]];
+                }
+            });
+        });
+    };
+    return OrderModel;
+}());
+exports["default"] = OrderModel;

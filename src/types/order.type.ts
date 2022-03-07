@@ -1,14 +1,9 @@
-enum order_status {
-  ACTIVE,
-  COMPLETE,
-}
-
 type Order = {
-  id: string
-  product_id: string
+  order_uid?: string
+  product_uid: string
   quantity: number
-  user_id: string
-  status: order_status
+  user_uid: string
+  status: string
 }
 
-export default Order
+export { Order }
