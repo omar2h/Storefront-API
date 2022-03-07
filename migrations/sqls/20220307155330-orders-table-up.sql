@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS orders(
+CREATE TABLE orders(
     order_uid UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     product_uid UUID NOT NULL REFERENCES products(product_uid),
     quantity INTEGER NOT NULL,
