@@ -6,4 +6,4 @@ type Order = {
   status: string
 }
 
-export { Order }
+export default Order

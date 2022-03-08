@@ -1,8 +1,8 @@
 type User = {
   user_uid?: string
   email?: string
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   password: string
 }
 

@@ -8,11 +8,26 @@ class ProductModel {
   }
 
   async create(newProduct: Product): Promise<Product> {
-    const result = await db.query(
-      'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *',
-      [newProduct.name, newProduct.price, newProduct.category]
-    )
-    return result.rows[0]
+    if (newProduct.product_uid) {
+      const result = await db.query(
+        'INSERT INTO products (product_uid, name, price, category) VALUES ($1, $2, $3, $4) RETURNING *',
+        [
+          newProduct.product_uid,
+          newProduct.name,
+          newProduct.price,
+          newProduct.category,
+        ]
+      )
+      console.log('dddddddddd')
+      return result.rows[0]
+    } else {
+      const result = await db.query(
+        'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *',
+        [newProduct.name, newProduct.price, newProduct.category]
+      )
+      console.log('aaaaaaaaaa')
+      return result.rows[0]
+    }
   }
 
   async show(id: string): Promise<Product> {

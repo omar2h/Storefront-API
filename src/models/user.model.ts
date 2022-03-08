@@ -13,11 +13,25 @@ class UserModel {
   }
 
   async create(newUser: User): Promise<User> {
-    const result = await db.query(
-      'INSERT INTO users (email, firstName, lastName, password) VALUES ($1, $2, $3, $4) RETURNING *',
-      [newUser.email, newUser.firstName, newUser.lastName, newUser.password]
-    )
-    return result.rows[0]
+    if (newUser.user_uid) {
+      const result = await db.query(
+        'INSERT INTO users (user_uid, email, firstname, lastname, password) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [
+          newUser.user_uid,
+          newUser.email,
+          newUser.firstname,
+          newUser.lastname,
+          newUser.password,
+        ]
+      )
+      return result.rows[0]
+    } else {
+      const result = await db.query(
+        'INSERT INTO users (email, firstname, lastname, password) VALUES ($1, $2, $3, $4) RETURNING *',
+        [newUser.email, newUser.firstname, newUser.lastname, newUser.password]
+      )
+      return result.rows[0]
+    }
   }
 }
 
