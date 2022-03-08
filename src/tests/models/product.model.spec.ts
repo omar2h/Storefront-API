@@ -31,9 +31,34 @@ describe('Product Model', () => {
       price: '150.65',
       category: 'magic',
     }
-    it('create methode should return product', async () => {
+    it('create method should return product', async () => {
       const result = await productModel.create(product)
-      expect(result).toEqual(jasmine.objectContaining(productJson))
+      const tempProduct = {
+        product_uid: result.product_uid,
+        ...productJson,
+      }
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(tempProduct))
+    })
+
+    it('index method should return list of products', async () => {
+      const result = await productModel.index()
+      const productsList = [
+        {
+          product_uid: result[0].product_uid,
+          ...productJson,
+        },
+      ]
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(productsList))
+    })
+
+    it('show method should return product', async () => {
+      const newProduct = await productModel.create(product)
+      const result = await productModel.show(newProduct.product_uid as string)
+      const tempProduct = {
+        product_uid: result.product_uid,
+        ...productJson,
+      }
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(tempProduct))
     })
   })
 })

@@ -18,7 +18,6 @@ const getProduct = async (req, res) => {
 exports.getProduct = getProduct;
 const createProduct = async (req, res) => {
     const product = await productModel.create(req.body);
-    console.log(product);
     res.json({ product });
 };
 exports.createProduct = createProduct;
