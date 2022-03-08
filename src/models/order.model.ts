@@ -2,7 +2,7 @@ import db from '../db/connect'
 import { Order } from '../types/order.type'
 
 class OrderModel {
-  async index(id: string, status?: string): Promise<Order[]> {
+  async index(id: string, status?: string): Promise<Order[]> {    
     if (!status) {
       const result = await db.query('SELECT * FROM orders WHERE user_uid=$1', [
         id,
