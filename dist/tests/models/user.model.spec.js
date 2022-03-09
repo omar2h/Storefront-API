@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const uuid_1 = require("uuid");
 const user_model_1 = __importDefault(require("../../models/user.model"));
 const userModel = new user_model_1.default();
 describe('User Model', () => {
@@ -18,13 +19,17 @@ describe('User Model', () => {
         });
     });
     describe('test methods', () => {
+        const user_uid1 = (0, uuid_1.v4)();
+        const user_uid2 = (0, uuid_1.v4)();
         const user1 = {
+            user_uid: user_uid1,
             email: 'user1@mail.com',
             firstname: 'user1',
             lastname: 'user2',
             password: '123',
         };
         const user2 = {
+            user_uid: user_uid2,
             email: 'user2@mail.com',
             firstname: 'user1',
             lastname: 'user2',

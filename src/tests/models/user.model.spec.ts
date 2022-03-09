@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import db from '../../db/connect'
 import UserModel from '../../models/user.model'
 import User from '../../types/user.type'
@@ -20,7 +22,10 @@ describe('User Model', () => {
   })
 
   describe('test methods', () => {
+    const user_uid1 = uuidv4()
+    const user_uid2 = uuidv4()
     const user1: User = {
+      user_uid: user_uid1,
       email: 'user1@mail.com',
       firstname: 'user1',
       lastname: 'user2',
@@ -28,6 +33,7 @@ describe('User Model', () => {
     }
 
     const user2: User = {
+      user_uid: user_uid2,
       email: 'user2@mail.com',
       firstname: 'user1',
       lastname: 'user2',
@@ -60,6 +66,7 @@ describe('User Model', () => {
     it('show method should return user', async () => {
       const newUser = await userModel.create(user2)
       const result = await userModel.show(newUser.user_uid as string)
+      
       const testUser = {
         user_uid: result.user_uid,
         ...user2,

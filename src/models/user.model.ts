@@ -31,7 +31,10 @@ class UserModel {
       )
       return result.rows[0]
     } else {
-      const hash = bcrypt.hashSync(newUser.password + pepper, saltRounds)
+      const hash = bcrypt.hashSync(
+        (newUser.password as string) + pepper,
+        saltRounds
+      )
       const result = await db.query(
         'INSERT INTO users (email, firstname, lastname, password) VALUES ($1, $2, $3, $4) RETURNING *',
         [newUser.email, newUser.firstname, newUser.lastname, hash]
