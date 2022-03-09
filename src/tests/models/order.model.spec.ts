@@ -51,9 +51,7 @@ describe('Order Model', () => {
     })
 
     afterAll(async () => {
-      db.query(
-        'DELETE FROM orders CASCADE;\n DELETE FROM products;\n DELETE FROM users;\n;'
-      )
+      db.query('DELETE FROM orders; DELETE FROM products; DELETE FROM users;')
     })
 
     it('should create and return order for a user', async () => {

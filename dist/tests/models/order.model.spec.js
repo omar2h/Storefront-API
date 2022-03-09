@@ -41,12 +41,11 @@ describe('Order Model', () => {
             status: 'active',
         };
         beforeAll(async () => {
-            //   db.query('DELETE FROM users CASCADE; DELETE FROM products CASCADE;')
             await productModel.create(product);
             await userModel.create(user);
         });
         afterAll(async () => {
-            connect_1.default.query('DELETE FROM orders CASCADE;\n DELETE FROM products;\n DELETE FROM users;\n;');
+            connect_1.default.query('DELETE FROM orders; DELETE FROM products; DELETE FROM users;');
         });
         it('should create and return order for a user', async () => {
             const result = await orderModel.create(order);

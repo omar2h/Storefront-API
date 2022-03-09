@@ -1,5 +1,10 @@
+import bcrypt from 'bcrypt'
+
 import User from '../types/user.type'
 import db from '../db/connect'
+
+const saltRounds = parseInt(process.env.SALT_ROUNDS as string)
+const pepper = process.env.BCRYPT_PASSWORD
 
 class UserModel {
   async index(): Promise<User[]> {
@@ -26,9 +31,10 @@ class UserModel {
       )
       return result.rows[0]
     } else {
+      const hash = bcrypt.hashSync(newUser.password + pepper, saltRounds)
       const result = await db.query(
         'INSERT INTO users (email, firstname, lastname, password) VALUES ($1, $2, $3, $4) RETURNING *',
-        [newUser.email, newUser.firstname, newUser.lastname, newUser.password]
+        [newUser.email, newUser.firstname, newUser.lastname, hash]
       )
       return result.rows[0]
     }
