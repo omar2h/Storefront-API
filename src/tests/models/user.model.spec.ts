@@ -66,7 +66,7 @@ describe('User Model', () => {
     it('show method should return user', async () => {
       const newUser = await userModel.create(user2)
       const result = await userModel.show(newUser.user_uid as string)
-      
+
       const testUser = {
         user_uid: result.user_uid,
         ...user2,

@@ -18,4 +18,10 @@ const createUser = async (req: Request, res: Response) => {
   res.json({ user })
 }
 
-export { getAllUsers, getUser, createUser }
+const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body
+  const user = await userModel.authenticate(email, password)
+  res.json({ user })
+}
+
+export { getAllUsers, getUser, createUser, login }

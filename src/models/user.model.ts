@@ -42,6 +42,23 @@ class UserModel {
       return result.rows[0]
     }
   }
+
+  async authenticate(email: string, password: string): Promise<User | null> {
+    const result = await db.query('SELECT password FROM users WHERE email=$1', [
+      email,
+    ])
+
+    // throw error result.rows.length === 0 error wrong email
+    const { password: savedPassword } = result.rows[0]
+    const isPasswordValid = await bcrypt.compare(
+      `${password}${pepper}`,
+      savedPassword
+    )
+    if (isPasswordValid) {
+      const user = await db.query('SELECT * FROM users WHERE email=$1', [email])
+      return user.rows[0]
+    } else return null
+  }
 }
 
 export default UserModel
