@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -50,68 +39,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.login = exports.createUser = exports.getUser = exports.getAllUsers = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var user_model_1 = __importDefault(require("../models/user.model"));
 var jwtToken = process.env.TOKEN_SECRET;
-var userModel = new user_model_1["default"]();
-var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
+var authenticationMiddleware = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var authHeader, token, decoded;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log(req.headers);
-                return [4 /*yield*/, userModel.index()];
-            case 1:
-                users = _a.sent();
-                res.json({ users: users });
-                return [2 /*return*/];
-        }
+        authHeader = req.headers.authorization;
+        token = authHeader.split(' ')[1];
+        decoded = jsonwebtoken_1["default"].verify(token, jwtToken);
+        next();
+        return [2 /*return*/];
     });
 }); };
-exports.getAllUsers = getAllUsers;
-var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, userModel.show(req.params.id)];
-            case 1:
-                user = _a.sent();
-                res.json({ user: user });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.getUser = getUser;
-var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, userModel.create(req.body)];
-            case 1:
-                user = _a.sent();
-                res.json({ user: user });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.createUser = createUser;
-var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, user, token;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, email = _a.email, password = _a.password;
-                return [4 /*yield*/, userModel.authenticate(email, password)];
-            case 1:
-                user = _b.sent();
-                console.log({ user_uid: user === null || user === void 0 ? void 0 : user.user_uid });
-                token = jsonwebtoken_1["default"].sign({ user_uid: user === null || user === void 0 ? void 0 : user.user_uid }, jwtToken, {
-                    expiresIn: '30d'
-                });
-                res.json({ user: __assign(__assign({}, user), { token: token }) });
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.login = login;
+exports["default"] = authenticationMiddleware;
