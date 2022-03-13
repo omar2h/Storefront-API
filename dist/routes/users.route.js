@@ -8,6 +8,6 @@ var router = (0, express_1["default"])();
 var users_controller_1 = require("../controllers/users.controller");
 var auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
 router.route('/').get(auth_middleware_1["default"], users_controller_1.getAllUsers).post(users_controller_1.createUser);
-router.route('/:id').get(users_controller_1.getUser);
+router.route('/:id').get(auth_middleware_1["default"], users_controller_1.getUser);
 router.route('/login').post(users_controller_1.login);
 exports["default"] = router;

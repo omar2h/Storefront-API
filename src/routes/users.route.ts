@@ -10,7 +10,7 @@ import {
 import authenticationMiddleware from '../middleware/auth.middleware'
 
 router.route('/').get(authenticationMiddleware, getAllUsers).post(createUser)
-router.route('/:id').get(getUser)
+router.route('/:id').get(authenticationMiddleware, getUser)
 router.route('/login').post(login)
 
 export default router
