@@ -57,7 +57,9 @@ class UserModel {
       email,
     ])
 
-    // throw error result.rows.length === 0 error wrong email
+    if (!result.rows[0])
+      throw new CustomError.NotFoundError(`Email: ${email} doesn't exist`)
+
     const { password: savedPassword } = result.rows[0]
     const isPasswordValid = await bcrypt.compare(
       `${password}${pepper}`,
@@ -66,7 +68,7 @@ class UserModel {
     if (isPasswordValid) {
       const user = await db.query('SELECT * FROM users WHERE email=$1', [email])
       return user.rows[0]
-    } else return null
+    } else throw new CustomError.BadRequestError('Invalid password')
   }
 }
 

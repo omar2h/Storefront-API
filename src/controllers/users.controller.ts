@@ -1,10 +1,8 @@
 import { Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
 
 import UserModel from '../models/user.model'
 import CustomError from '../errors'
 
-const jwtToken = process.env.TOKEN_SECRET as string
 const userModel = new UserModel()
 
 const getAllUsers = async (req: Request, res: Response) => {
@@ -26,23 +24,4 @@ const createUser = async (req: Request, res: Response) => {
   res.json({ user })
 }
 
-const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body
-  if (!email || !password) {
-    throw new CustomError.BadRequestError(
-      'Please provide correct email and password'
-    )
-  }
-
-  const user = await userModel.authenticate(email, password)
-  if (!user) {
-    throw new CustomError.UnauthenticatedError('Invalid Credentials')
-  }
-
-  const token = jwt.sign({ user_uid: user?.user_uid }, jwtToken, {
-    expiresIn: '1d',
-  })
-  res.json({ user: { ...user, token } })
-}
-
-export { getAllUsers, getUser, createUser, login }
+export { getAllUsers, getUser, createUser }

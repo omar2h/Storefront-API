@@ -5,12 +5,11 @@ import {
   getAllUsers,
   getUser,
   createUser,
-  login,
 } from '../controllers/users.controller'
+import { login } from '../controllers/auth.controller'
 import authenticationMiddleware from '../middleware/auth.middleware'
 
 router.route('/').get(authenticationMiddleware, getAllUsers).post(createUser)
 router.route('/:id').get(authenticationMiddleware, getUser)
-router.route('/login').post(login)
 
 export default router
