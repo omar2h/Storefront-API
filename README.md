@@ -1,11 +1,4 @@
-# build-a-storefront-backend
-
-## Table of Contents
-
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+# Build a Storefront Backend
 
 ## About <a name = "about"></a>
 
@@ -18,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 * NodeJs
-## List of dependencies
+### List of dependencies
 - express - `npm i express` - Node.js web app framework
 - dotenv - `npm i dotenv` - Load environment variables
 - pg - `npm i pg` - PostgreSQL client
@@ -30,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 - http-status-codes - `npm i http-status-codes` - Constants enumerating the HTTP status codes
 - morgan - `npm i morgan` - HTTP request logger middleware for node.js
 - uuid - `npm i uuid` - For the creation of RFC4122 UUIDs
-# Dev dependencies
+#### Dev dependencies
 - eslint - `npm i --save-dev eslint` - Linter
 - prettier - `npm i --save-dev prettier` - Code formatting
 - eslint-plugin-prettier - `npm i --save-dev eslint-plugin-prettier` - Run prettier as an eslint rule
@@ -51,7 +44,7 @@ npm install
 npm run watch
 ```
 ### Setup
-## env file
+#### env file
 ```
 POSTGRES_HOST=localhost
 POSTGRES_USER=wizard
@@ -65,7 +58,7 @@ SALT_ROUNDS=10
 BCRYPT_PASSWORD=balderdash
 TOKEN_SECRET=who-are-you
 ```
-## Migrations
+#### Migrations
 ```
 npm run migrate-up
 npm run migrate-down
