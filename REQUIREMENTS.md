@@ -15,7 +15,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Create:  `'api/v1/users/' (POST)`
 
 #### Orders
-- Orders by user (args: user id) (query: order status) [token required]
+- Orders by user `'api/v1/orders/:id' (GET)` (args: user id) (query: order status) [token required]
 
 ## Data Shapes
 #### Product
