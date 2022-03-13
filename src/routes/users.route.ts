@@ -6,7 +6,6 @@ import {
   getUser,
   createUser,
 } from '../controllers/users.controller'
-import { login } from '../controllers/auth.controller'
 import authenticationMiddleware from '../middleware/auth.middleware'
 
 router.route('/').get(authenticationMiddleware, getAllUsers).post(createUser)
