@@ -1,4 +1,5 @@
 import db from '../db/connect'
+import CustomError from '../errors'
 import Order from '../types/order.type'
 
 class OrderModel {

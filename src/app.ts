@@ -6,6 +6,7 @@ import productsRouter from './routes/products.route'
 import usersRouter from './routes/users.route'
 import ordersRouter from './routes/orders.route'
 import errorHandlerMiddleware from './middleware/error-handler'
+import notFoundMiddleware from './middleware/not-found'
 
 const app: express.Application = express()
 app.use(express.json())
@@ -23,5 +24,6 @@ app.use('/api/v1/users', usersRouter)
 app.use('/api/v1/orders', ordersRouter)
 
 app.use(errorHandlerMiddleware)
+app.use(notFoundMiddleware)
 
 export default app

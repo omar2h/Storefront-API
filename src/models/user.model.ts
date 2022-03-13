@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 
 import User from '../types/user.type'
 import db from '../db/connect'
+import CustomError from '../errors'
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS as string)
 const pepper = process.env.BCRYPT_PASSWORD
@@ -9,11 +10,15 @@ const pepper = process.env.BCRYPT_PASSWORD
 class UserModel {
   async index(): Promise<User[]> {
     const result = await db.query('SELECT * FROM users')
+    if (!result.rows)
+      throw new CustomError.DatabaseConnectionError('Error getting users')
     return result.rows
   }
 
   async show(id: string): Promise<User> {
     const result = await db.query('SELECT * FROM users WHERE user_uid=$1', [id])
+    if (!result.rows[0])
+      throw new CustomError.DatabaseConnectionError('Error getting user')
     return result.rows[0]
   }
 
@@ -29,6 +34,8 @@ class UserModel {
           newUser.password,
         ]
       )
+      if (!result.rows[0])
+        throw new CustomError.DatabaseConnectionError('Error getting users')
       return result.rows[0]
     } else {
       const hash = bcrypt.hashSync(
@@ -39,6 +46,8 @@ class UserModel {
         'INSERT INTO users (email, firstname, lastname, password) VALUES ($1, $2, $3, $4) RETURNING *',
         [newUser.email, newUser.firstname, newUser.lastname, hash]
       )
+      if (!result.rows[0])
+        throw new CustomError.DatabaseConnectionError('Error getting users')
       return result.rows[0]
     }
   }
