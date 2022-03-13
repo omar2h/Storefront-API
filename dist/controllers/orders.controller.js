@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.createOrder = exports.getAllOrders = void 0;
 var order_model_1 = __importDefault(require("../models/order.model"));
+var errors_1 = __importDefault(require("../errors"));
 var orderModel = new order_model_1["default"]();
 var getAllOrders = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var orders;
@@ -49,6 +50,8 @@ var getAllOrders = function (req, res) { return __awaiter(void 0, void 0, void 0
             case 0: return [4 /*yield*/, orderModel.index(req.params.id, req.query.status)];
             case 1:
                 orders = _a.sent();
+                if (!orders)
+                    throw new errors_1["default"].NotFoundError("ID: ".concat(req.params.id, " doesn't exist"));
                 res.json({ orders: orders });
                 return [2 /*return*/];
         }
@@ -62,7 +65,8 @@ var createOrder = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 0: return [4 /*yield*/, orderModel.create(req.body)];
             case 1:
                 order = _a.sent();
-                console.log(order);
+                if (!order)
+                    throw new errors_1["default"].BadRequestError('Invalid order information');
                 res.json({ order: order });
                 return [2 /*return*/];
         }

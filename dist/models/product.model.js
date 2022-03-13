@@ -71,12 +71,10 @@ var ProductModel = /** @class */ (function () {
                             ])];
                     case 1:
                         result = _a.sent();
-                        console.log('dddddddddd');
                         return [2 /*return*/, result.rows[0]];
                     case 2: return [4 /*yield*/, connect_1["default"].query('INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *', [newProduct.name, newProduct.price, newProduct.category])];
                     case 3:
                         result = _a.sent();
-                        console.log('aaaaaaaaaa');
                         return [2 /*return*/, result.rows[0]];
                 }
             });

@@ -4,7 +4,6 @@ import Order from '../types/order.type'
 class OrderModel {
   async index(id: string, status?: string): Promise<Order[]> {
     if (!id) {
-      console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxx') 
       return []
     }
 
@@ -12,7 +11,6 @@ class OrderModel {
       const result = await db.query('SELECT * FROM orders WHERE user_uid=$1', [
         id,
       ])
-      console.log(`======================`)
 
       return result.rows
     }
@@ -21,7 +19,6 @@ class OrderModel {
       'SELECT * FROM orders WHERE user_uid=$1 AND status=$2',
       [id, status]
     )
-    console.log(`=========${result.rows.length}=============`)
     return result.rows
   }
 

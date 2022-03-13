@@ -18,14 +18,12 @@ class ProductModel {
           newProduct.category,
         ]
       )
-      console.log('dddddddddd')
       return result.rows[0]
     } else {
       const result = await db.query(
         'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *',
         [newProduct.name, newProduct.price, newProduct.category]
       )
-      console.log('aaaaaaaaaa')
       return result.rows[0]
     }
   }

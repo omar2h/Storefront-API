@@ -50,7 +50,6 @@ var OrderModel = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!id) {
-                            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxx');
                             return [2 /*return*/, []];
                         }
                         if (!!status) return [3 /*break*/, 2];
@@ -59,12 +58,10 @@ var OrderModel = /** @class */ (function () {
                             ])];
                     case 1:
                         result_1 = _a.sent();
-                        console.log("======================");
                         return [2 /*return*/, result_1.rows];
                     case 2: return [4 /*yield*/, connect_1["default"].query('SELECT * FROM orders WHERE user_uid=$1 AND status=$2', [id, status])];
                     case 3:
                         result = _a.sent();
-                        console.log("=========".concat(result.rows.length, "============="));
                         return [2 /*return*/, result.rows];
                 }
             });

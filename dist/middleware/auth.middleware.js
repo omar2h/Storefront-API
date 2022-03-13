@@ -40,13 +40,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var errors_1 = __importDefault(require("../errors"));
 var jwtToken = process.env.TOKEN_SECRET;
 var authenticationMiddleware = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var authHeader, token, decoded;
     return __generator(this, function (_a) {
         authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            throw new errors_1["default"].UnauthenticatedError('No token provided');
+        }
         token = authHeader.split(' ')[1];
         decoded = jsonwebtoken_1["default"].verify(token, jwtToken);
+        if (!decoded)
+            throw new errors_1["default"].UnauthenticatedError('Not authorized to access this route');
         next();
         return [2 /*return*/];
     });

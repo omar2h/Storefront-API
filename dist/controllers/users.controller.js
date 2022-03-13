@@ -53,15 +53,14 @@ exports.__esModule = true;
 exports.login = exports.createUser = exports.getUser = exports.getAllUsers = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var user_model_1 = __importDefault(require("../models/user.model"));
+var errors_1 = __importDefault(require("../errors"));
 var jwtToken = process.env.TOKEN_SECRET;
 var userModel = new user_model_1["default"]();
 var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log(req.headers);
-                return [4 /*yield*/, userModel.index()];
+            case 0: return [4 /*yield*/, userModel.index()];
             case 1:
                 users = _a.sent();
                 res.json({ users: users });
@@ -77,6 +76,8 @@ var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
             case 0: return [4 /*yield*/, userModel.show(req.params.id)];
             case 1:
                 user = _a.sent();
+                if (!user)
+                    throw new errors_1["default"].NotFoundError("ID: ".concat(req.params.id, " doesn't exist"));
                 res.json({ user: user });
                 return [2 /*return*/];
         }
@@ -90,6 +91,8 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 0: return [4 /*yield*/, userModel.create(req.body)];
             case 1:
                 user = _a.sent();
+                if (!user)
+                    throw new errors_1["default"].BadRequestError('Please provide valid credentials');
                 res.json({ user: user });
                 return [2 /*return*/];
         }
@@ -102,12 +105,17 @@ var login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
         switch (_b.label) {
             case 0:
                 _a = req.body, email = _a.email, password = _a.password;
+                if (!email || !password) {
+                    throw new errors_1["default"].BadRequestError('Please provide correct email and password');
+                }
                 return [4 /*yield*/, userModel.authenticate(email, password)];
             case 1:
                 user = _b.sent();
-                console.log({ user_uid: user === null || user === void 0 ? void 0 : user.user_uid });
+                if (!user) {
+                    throw new errors_1["default"].UnauthenticatedError('Invalid Credentials');
+                }
                 token = jsonwebtoken_1["default"].sign({ user_uid: user === null || user === void 0 ? void 0 : user.user_uid }, jwtToken, {
-                    expiresIn: '30d'
+                    expiresIn: '1d'
                 });
                 res.json({ user: __assign(__assign({}, user), { token: token }) });
                 return [2 /*return*/];

@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.createProduct = exports.getProduct = exports.getAllProducts = void 0;
 var product_model_1 = __importDefault(require("../models/product.model"));
+var errors_1 = __importDefault(require("../errors"));
 var productModel = new product_model_1["default"]();
 var getAllProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var products;
@@ -62,6 +63,8 @@ var getProduct = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 0: return [4 /*yield*/, productModel.show(req.params.id)];
             case 1:
                 product = _a.sent();
+                if (!product)
+                    throw new errors_1["default"].NotFoundError("ID: ".concat(req.params.id, " doesn't exist"));
                 res.json({ product: product });
                 return [2 /*return*/];
         }
@@ -75,6 +78,8 @@ var createProduct = function (req, res) { return __awaiter(void 0, void 0, void 
             case 0: return [4 /*yield*/, productModel.create(req.body)];
             case 1:
                 product = _a.sent();
+                if (!product)
+                    throw new errors_1["default"].BadRequestError('Invalid product information');
                 res.json({ product: product });
                 return [2 /*return*/];
         }
