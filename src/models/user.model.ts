@@ -24,6 +24,10 @@ class UserModel {
 
   async create(newUser: User): Promise<User> {
     if (newUser.user_uid) {
+      const hash = bcrypt.hashSync(
+        (newUser.password as string) + pepper,
+        saltRounds
+      )
       const result = await db.query(
         'INSERT INTO users (user_uid, email, firstname, lastname, password) VALUES ($1, $2, $3, $4, $5) RETURNING *',
         [
@@ -31,7 +35,7 @@ class UserModel {
           newUser.email,
           newUser.firstname,
           newUser.lastname,
-          newUser.password,
+          hash,
         ]
       )
       if (!result.rows[0])
@@ -61,6 +65,7 @@ class UserModel {
       throw new CustomError.NotFoundError(`Email: ${email} doesn't exist`)
 
     const { password: savedPassword } = result.rows[0]
+
     const isPasswordValid = await bcrypt.compare(
       `${password}${pepper}`,
       savedPassword

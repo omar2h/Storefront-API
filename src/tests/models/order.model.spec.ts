@@ -65,7 +65,6 @@ describe('Order Model', () => {
 
     it('should return list of orders for a user', async () => {
       const result = await orderModel.index(user.user_uid as string)
-      console.log(`-------------------------------------------`)
 
       const ordersList = [
         {

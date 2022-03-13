@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const http_status_codes_1 = require("http-status-codes");
 const custom_error_1 = __importDefault(require("./custom-error"));
-class NotFound extends custom_error_1.default {
+class databaseConnection extends custom_error_1.default {
     constructor(message) {
         super(message);
-        this.statusCode = http_status_codes_1.StatusCodes.NOT_FOUND;
+        this.statusCode = http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR;
     }
 }
-exports.default = NotFound;
+exports.default = databaseConnection;

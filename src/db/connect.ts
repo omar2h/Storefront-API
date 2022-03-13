@@ -33,8 +33,6 @@ if (ENV === 'test') {
   })
 }
 
-console.log(`====${ENV}====`)
-
 export = {
   query: (sql: string, params?: (string | number | undefined)[]) =>
     pool.query(sql, params),
