@@ -73,7 +73,6 @@ describe('User Model', () => {
         });
         it('authenticate method return user', async () => {
             const result = await userModel.authenticate(user2.email, '123');
-            console.log(user2.password);
             delete user2.password;
             delete result?.password;
             const testUser = {

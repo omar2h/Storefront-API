@@ -1,9 +1,8 @@
 "use strict";
-exports.__esModule = true;
-var CustomAPIError = /** @class */ (function () {
-    function CustomAPIError(message) {
+Object.defineProperty(exports, "__esModule", { value: true });
+class CustomAPIError {
+    constructor(message) {
         this.message = message;
     }
-    return CustomAPIError;
-}());
-exports["default"] = CustomAPIError;
+}
+exports.default = CustomAPIError;

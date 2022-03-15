@@ -35,8 +35,6 @@ describe('Order Model', () => {
             password: '123',
         };
         const order = {
-            product_uid: product_uid,
-            quantity: 1,
             user_uid: user_uid,
             status: 'active',
         };
@@ -55,9 +53,8 @@ describe('Order Model', () => {
             };
             expect(JSON.stringify(result)).toEqual(JSON.stringify(tempOrder));
         });
-        it('should return list of orders for a user', async () => {
-            const result = await orderModel.index(user.user_uid);
-            console.log(`-------------------------------------------`);
+        it('should return list of all orders', async () => {
+            const result = await orderModel.index();
             const ordersList = [
                 {
                     order_uid: result[0].order_uid,

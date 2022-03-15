@@ -39,8 +39,6 @@ describe('Order Model', () => {
     }
 
     const order = {
-      product_uid: product_uid,
-      quantity: 1,
       user_uid: user_uid,
       status: 'active',
     }
@@ -63,8 +61,8 @@ describe('Order Model', () => {
       expect(JSON.stringify(result)).toEqual(JSON.stringify(tempOrder))
     })
 
-    it('should return list of orders for a user', async () => {
-      const result = await orderModel.index(user.user_uid as string)
+    it('should return list of all orders', async () => {
+      const result = await orderModel.index()
 
       const ordersList = [
         {
