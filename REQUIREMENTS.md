@@ -15,7 +15,15 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Create:  `'api/v1/users/' (POST)`
 
 #### Orders
-- Orders by user `'api/v1/orders/:id' (GET)` (args: user id) (query: order status) [token required]
+- Index:  `'api/v1/orders/' (GET)` [token required]
+- Show:  `'api/v1/orders/:id' (GET)` [token required]
+- Create:  `'api/v1/orders/' (POST)` [token required]
+- addProduct:  `'api/v1/orders/:id/products' (POST)` [token required]
+
+#### Dashboard
+- allOrdersWithProducts `'api/v1/dashboard/orders-products' (GET)` [token required]
+- singleOrderWithProducts `'api/v1/dashboard/orders-products/:id' (args: user id) (GET)` [token required]
+- getUserOrders `'api/v1/dashboard/user-orders/:id' (GET)` (args: user id) (query: order status) [token required]
 
 ## Data Shapes
 #### Product
@@ -50,19 +58,28 @@ CREATE TABLE users(
 
 #### Orders
 - id
-- id of each product in the order
-- quantity of each product in the order
 - user_id
 - status of order (active or complete)
 ```sql
 CREATE TABLE orders(
     order_uid UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
-    product_uid UUID NOT NULL REFERENCES products(product_uid),
-    quantity INTEGER NOT NULL,
     user_uid UUID NOT NULL REFERENCES users(user_uid),
     status VARCHAR(10) NOT NULL
 );
 
 ALTER TABLE orders ADD CONSTRAINT status_constraint
 CHECK (status='active' or status='complete');
+```
+#### order-products
+- id
+- order_uid
+- product_uid
+- quantity of each product in the order
+```sql
+CREATE TABLE order_products(
+    order_product_uid UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+    order_uid UUID NOT NULL REFERENCES orders(order_uid),
+    product_uid UUID NOT NULL REFERENCES products(product_uid),
+    quantity INTEGER NOT NULL
+);
 ```
