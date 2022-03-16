@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import productsRouter from './routes/products.route'
 import usersRouter from './routes/users.route'
 import ordersRouter from './routes/orders.route'
+import dashboardRouter from './routes/dashboard.route'
 import authRouter from './routes/auth.routes'
 
 // middleware
@@ -25,6 +26,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/v1/products', productsRouter)
 app.use('/api/v1/users', usersRouter)
 app.use('/api/v1/orders', ordersRouter)
+app.use('/api/v1/dashboard', dashboardRouter)
 app.use('/api/v1/auth', authRouter)
 
 app.use(errorHandlerMiddleware)

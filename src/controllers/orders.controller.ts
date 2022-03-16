@@ -11,18 +11,11 @@ const getAllOrders = async (req: Request, res: Response) => {
 
 const getOrder = async (req: Request, res: Response) => {
   const order = await orderModel.show(req.params.id)
+  if (!order)
+    throw new CustomError.NotFoundError(
+      `Order with ID: ${req.params.id} doesn't exist`
+    )
   res.json({ order })
-}
-
-const getUserOrders = async (req: Request, res: Response) => {
-  const orders = await orderModel.getUserOrders(
-    req.params.id,
-    req.query.status as string
-  )
-
-  if (!orders)
-    throw new CustomError.NotFoundError(`ID: ${req.params.id} doesn't exist`)
-  res.json({ orders })
 }
 
 const createOrder = async (req: Request, res: Response) => {
@@ -35,9 +28,13 @@ const addProduct = async (req: Request, res: Response) => {
   const orderId: string = req.params.id
   const productId: string = req.body.productId
   const quantity: number = parseInt(req.body.quantity)
+  if (!orderId || !productId || !quantity)
+    throw new CustomError.BadRequestError(
+      'Please provide order id, product id and quantity'
+    )
 
   const addedProduct = await orderModel.addProduct(orderId, productId, quantity)
   res.json({ addedProduct })
 }
 
-export { getAllOrders, getOrder, getUserOrders, createOrder, addProduct }
+export { getAllOrders, getOrder, createOrder, addProduct }

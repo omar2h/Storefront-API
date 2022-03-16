@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addProduct = exports.createOrder = exports.getUserOrders = exports.getOrder = exports.getAllOrders = void 0;
+exports.addProduct = exports.createOrder = exports.getOrder = exports.getAllOrders = void 0;
 const order_model_1 = __importDefault(require("../models/order.model"));
 const errors_1 = __importDefault(require("../errors"));
 const orderModel = new order_model_1.default();
@@ -14,16 +14,11 @@ const getAllOrders = async (req, res) => {
 exports.getAllOrders = getAllOrders;
 const getOrder = async (req, res) => {
     const order = await orderModel.show(req.params.id);
+    if (!order)
+        throw new errors_1.default.NotFoundError(`Order with ID: ${req.params.id} doesn't exist`);
     res.json({ order });
 };
 exports.getOrder = getOrder;
-const getUserOrders = async (req, res) => {
-    const orders = await orderModel.getUserOrders(req.params.id, req.query.status);
-    if (!orders)
-        throw new errors_1.default.NotFoundError(`ID: ${req.params.id} doesn't exist`);
-    res.json({ orders });
-};
-exports.getUserOrders = getUserOrders;
 const createOrder = async (req, res) => {
     const order = await orderModel.create(req.body);
     if (!order)
@@ -35,6 +30,8 @@ const addProduct = async (req, res) => {
     const orderId = req.params.id;
     const productId = req.body.productId;
     const quantity = parseInt(req.body.quantity);
+    if (!orderId || !productId || !quantity)
+        throw new errors_1.default.BadRequestError('Please provide order id, product id and quantity');
     const addedProduct = await orderModel.addProduct(orderId, productId, quantity);
     res.json({ addedProduct });
 };
