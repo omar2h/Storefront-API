@@ -6,7 +6,7 @@ const errorHandlerMiddleware = (
   err: Error | CustomAPIError,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ) => {
   if (err instanceof CustomAPIError) {
     return res.status(err.statusCode as StatusCodes).json({ msg: err.message })

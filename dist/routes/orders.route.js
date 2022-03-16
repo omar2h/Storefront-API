@@ -11,6 +11,7 @@ router
     .route('/')
     .get(auth_middleware_1.default, orders_controller_1.getAllOrders)
     .post(auth_middleware_1.default, orders_controller_1.createOrder);
-router.route('/:id').get(auth_middleware_1.default, orders_controller_1.getOrdersSingleUser);
+router.route('/:id').get(auth_middleware_1.default, orders_controller_1.getOrder);
 router.route('/:id/products').post(auth_middleware_1.default, orders_controller_1.addProduct);
+router.route('/showUserOrders/:id').get(auth_middleware_1.default, orders_controller_1.getUserOrders);
 exports.default = router;

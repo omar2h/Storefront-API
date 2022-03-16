@@ -9,11 +9,17 @@ const getAllOrders = async (req: Request, res: Response) => {
   res.json({ orders })
 }
 
-const getOrdersSingleUser = async (req: Request, res: Response) => {
-  const orders = await orderModel.showAll(
+const getOrder = async (req: Request, res: Response) => {
+  const order = await orderModel.show(req.params.id)
+  res.json({ order })
+}
+
+const getUserOrders = async (req: Request, res: Response) => {
+  const orders = await orderModel.getUserOrders(
     req.params.id,
     req.query.status as string
   )
+
   if (!orders)
     throw new CustomError.NotFoundError(`ID: ${req.params.id} doesn't exist`)
   res.json({ orders })
@@ -34,4 +40,4 @@ const addProduct = async (req: Request, res: Response) => {
   res.json({ addedProduct })
 }
 
-export { getAllOrders, getOrdersSingleUser, createOrder, addProduct }
+export { getAllOrders, getOrder, getUserOrders, createOrder, addProduct }
