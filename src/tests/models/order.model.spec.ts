@@ -1,11 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import db from '../../db/connect'
 import UserModel from '../../models/user.model'
-import User from '../../types/user.type'
 import ProductModel from '../../models/product.model'
-import Product from '../../types/product.type'
+
 import OrderModel from '../../models/order.model'
-import Order from '../../types/order.type'
 
 const productModel = new ProductModel()
 const userModel = new UserModel()
@@ -49,7 +47,9 @@ describe('Order Model', () => {
     })
 
     afterAll(async () => {
-      db.query('DELETE FROM orders; DELETE FROM products; DELETE FROM users;')
+      db.query(
+        'DELETE FROM order_products; DELETE FROM orders; DELETE FROM products; DELETE FROM users;'
+      )
     })
 
     it('should create and return order for a user', async () => {

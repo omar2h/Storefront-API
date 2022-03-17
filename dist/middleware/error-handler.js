@@ -9,8 +9,6 @@ const errorHandlerMiddleware = (err, _req, res, next) => {
     if (err instanceof custom_error_1.default) {
         return res.status(err.statusCode).json({ msg: err.message });
     }
-    return res
-        .status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR)
-        .send('Something went wrong try again later');
+    return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).send(err.message);
 };
 exports.default = errorHandlerMiddleware;

@@ -32,9 +32,9 @@ describe('Product Model', () => {
       category: 'magic',
     }
 
-    // afterAll(async () => {
-    //   db.query('DELETE FROM products CASCADE;')
-    // })
+    afterAll(async () => {
+      db.query('DELETE FROM products CASCADE;')
+    })
     it('create method should return product', async () => {
       const result = await productModel.create(product)
       const tempProduct = {

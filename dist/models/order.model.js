@@ -25,6 +25,11 @@ class OrderModel {
     }
     async create(newOrder) {
         try {
+            // For testing to make sure we have same uid
+            if (newOrder.order_uid) {
+                const result = await connect_1.default.query('INSERT INTO orders (order_uid, user_uid, status) VALUES ($1, $2, $3) RETURNING *', [newOrder.order_uid, newOrder.user_uid, newOrder.status]);
+                return result.rows[0];
+            }
             const result = await connect_1.default.query('INSERT INTO orders (user_uid, status) VALUES ($1, $2) RETURNING *', [newOrder.user_uid, newOrder.status]);
             return result.rows[0];
         }

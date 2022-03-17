@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const connect_1 = __importDefault(require("../../db/connect"));
 const product_model_1 = __importDefault(require("../../models/product.model"));
 const productModel = new product_model_1.default();
 describe('Product Model', () => {
@@ -28,9 +29,9 @@ describe('Product Model', () => {
             price: '150.65',
             category: 'magic',
         };
-        // afterAll(async () => {
-        //   db.query('DELETE FROM products CASCADE;')
-        // })
+        afterAll(async () => {
+            connect_1.default.query('DELETE FROM products CASCADE;');
+        });
         it('create method should return product', async () => {
             const result = await productModel.create(product);
             const tempProduct = {

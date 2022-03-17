@@ -26,9 +26,11 @@ const getProduct = async (req: Request, res: Response) => {
 
 const createProduct = async (req: Request, res: Response) => {
   try {
+    console.log(`-------------------------------------${req.body}`)
     const product = await productModel.create(req.body)
     if (!product)
       throw new CustomError.BadRequestError('Invalid product information')
+
     res.json({ product })
   } catch (err) {
     throw new Error()

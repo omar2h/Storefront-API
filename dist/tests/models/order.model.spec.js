@@ -43,7 +43,7 @@ describe('Order Model', () => {
             await userModel.create(user);
         });
         afterAll(async () => {
-            connect_1.default.query('DELETE FROM orders; DELETE FROM products; DELETE FROM users;');
+            connect_1.default.query('DELETE FROM order_products; DELETE FROM orders; DELETE FROM products; DELETE FROM users;');
         });
         it('should create and return order for a user', async () => {
             const result = await orderModel.create(order);
