@@ -1,6 +1,6 @@
 import app from './app'
-const address = '0.0.0.0:3000'
+const port = process.env.PORT || 3000
 
-app.listen(3000, function () {
-  console.log(`starting app on: ${address}`)
+app.listen(port, function () {
+  console.log(`App running on port: ${port}`)
 })
