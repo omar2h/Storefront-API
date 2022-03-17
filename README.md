@@ -60,6 +60,7 @@ GRANT ALL PRIVILEGES ON DATABASE storedb_test To wizard;
 #### env file
 - Add to your .env file
 ```sh
+PORT=3000
 POSTGRES_HOST=localhost
 POSTGRES_USER=wizard
 POSTGRES_PORT=5432
