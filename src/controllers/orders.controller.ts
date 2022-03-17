@@ -5,36 +5,57 @@ import CustomError from '../errors'
 const orderModel = new OrderModel()
 
 const getAllOrders = async (req: Request, res: Response) => {
-  const orders = await orderModel.index()
-  res.json({ orders })
+  try {
+    const orders = await orderModel.index()
+    res.json({ orders })
+  } catch (err) {
+    throw new Error()
+  }
 }
 
 const getOrder = async (req: Request, res: Response) => {
-  const order = await orderModel.show(req.params.id)
-  if (!order)
-    throw new CustomError.NotFoundError(
-      `Order with ID: ${req.params.id} doesn't exist`
-    )
-  res.json({ order })
+  try {
+    const order = await orderModel.show(req.params.id)
+    if (!order)
+      throw new CustomError.NotFoundError(
+        `Order with ID: ${req.params.id} doesn't exist`
+      )
+    res.json({ order })
+  } catch (err) {
+    throw new Error()
+  }
 }
 
 const createOrder = async (req: Request, res: Response) => {
-  const order = await orderModel.create(req.body)
-  if (!order) throw new CustomError.BadRequestError('Invalid order information')
-  res.json({ order })
+  try {
+    const order = await orderModel.create(req.body)
+    if (!order)
+      throw new CustomError.BadRequestError('Invalid order information')
+    res.json({ order })
+  } catch (err) {
+    throw new Error()
+  }
 }
 
 const addProduct = async (req: Request, res: Response) => {
-  const orderId: string = req.params.id
-  const productId: string = req.body.productId
-  const quantity: number = parseInt(req.body.quantity)
-  if (!orderId || !productId || !quantity)
-    throw new CustomError.BadRequestError(
-      'Please provide order id, product id and quantity'
-    )
+  try {
+    const orderId: string = req.params.id
+    const productId: string = req.body.productId
+    const quantity: number = parseInt(req.body.quantity)
+    if (!orderId || !productId || !quantity)
+      throw new CustomError.BadRequestError(
+        'Please provide order id, product id and quantity'
+      )
 
-  const addedProduct = await orderModel.addProduct(orderId, productId, quantity)
-  res.json({ addedProduct })
+    const addedProduct = await orderModel.addProduct(
+      orderId,
+      productId,
+      quantity
+    )
+    res.json({ addedProduct })
+  } catch (err) {
+    throw new Error()
+  }
 }
 
 export { getAllOrders, getOrder, createOrder, addProduct }
