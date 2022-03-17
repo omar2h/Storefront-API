@@ -4,11 +4,7 @@
 
 Storefront REST API implemented with Nodejs, Express and Typescript. Tested using Jasmine.
 
-## Getting Started <a name = "getting_started"></a>
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
+## Prerequisites
 
 * NodeJs
 ### List of dependencies
@@ -33,19 +29,37 @@ These instructions will get you a copy of the project up and running on your loc
 - jasmine-spec-reporter - `npm i --save-dev jasmine-spec-reporter` - Jasmine test output formatting
 - ts-node - `npm i --save-dev ts-node` - Typescript node.js
 
+## Getting Started <a name = "getting_started"></a>
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
 ### Install all dependencies
 
-```
+```bash
 npm init
 npm install
 ```
-### Run
-```
-npm run watch
-```
+
 ### Setup
-#### env file
+**creating user**
+```sh
+CREATE USER wizard WITH PASSWORD '12345';
 ```
+**Create development and testing db**
+```sh
+CREATE DATABASE storedb;
+CREATE DATABASE storedb_test;
+```
+**Grant all privileges to databases**
+```sh
+\c storedb;
+GRANT ALL PRIVILEGES ON DATABASE storedb To wizard;
+\c storedb_test 
+GRANT ALL PRIVILEGES ON DATABASE storedb_test To wizard;
+```
+#### env file
+- Add to your .env file
+```sh
 POSTGRES_HOST=localhost
 POSTGRES_USER=wizard
 POSTGRES_PORT=5432
@@ -57,6 +71,11 @@ ENV=dev
 SALT_ROUNDS=10
 BCRYPT_PASSWORD=balderdash
 TOKEN_SECRET=who-are-you
+```
+- The server runs on <a href="http://localhost:3000">localhost</a>
+### Run
+```
+npm run watch
 ```
 #### Migrations
 ```
