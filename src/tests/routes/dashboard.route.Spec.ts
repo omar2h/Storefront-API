@@ -63,7 +63,7 @@ describe('Test products endpoints \n', () => {
     token = resonse.body.user.token as string
   })
 
-  it(`Test getAllOrders: 'api/v1/dashboard/orders-products (GET)',
+  it(`Test allOrdersWithProducts: 'api/v1/dashboard/orders-products (GET)',
       expect to return orders with thier products with OK status`, async () => {
     const response = await request
       .get('/api/v1/dashboard/orders-products')
@@ -74,7 +74,7 @@ describe('Test products endpoints \n', () => {
     expect(response.body.orders.length).toBe(1)
     expect(response.body.orders[0].order_uid).toBe(order_uid)
   })
-  it(`Test getOrder: 'api/v1/dashboard/orders-products/:id' (GET),
+  it(`Test singleOrderWithProducts: 'api/v1/dashboard/orders-products/:id' (GET),
       expect to return single order with its products with OK status`, async () => {
     const response = await request
       .get(`/api/v1/dashboard/orders-products/${order_uid}`)
